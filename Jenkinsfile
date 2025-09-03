@@ -15,7 +15,7 @@ pipeline {
                     sh 'echo "Running security scan for branch: $GIT_BRANCH"'
 
                     // Debug: list files in the workspace
-                    sh 'echo "Workspace files:" && ls -alh'
+                    sh 'echo "Workspace files:" && pwd && ls -alh'
 
                     // Optional: list inside the mounted path in the Docker container
                     sh '''
