@@ -20,6 +20,7 @@ pipeline {
                     // Optional: list inside the mounted path in the Docker container
                     sh '''
                         echo "Files in /app/wrk inside container:"
+                        echo "${PWD}:"
                         docker run --rm -v "${PWD}:/app/wrk" alpine ls -alh /app/wrk
                     '''
 
