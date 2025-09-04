@@ -12,18 +12,6 @@ pipeline {
         stage('ArmourZero Security Test') {
             steps {
                 script {
-                    sh 'echo "Running security scan for branch: $GIT_BRANCH"'
-
-                    // Debug: list files in the workspace
-                    sh 'echo "Workspace files:" && pwd && ls -alh'
-
-                    // Optional: list inside the mounted path in the Docker container
-                    sh '''
-                        echo "Files in /app/wrk inside container:"
-                        echo "${PWD}:"
-                        docker run --rm -v "${PWD}:/app/wrk" alpine ls -alh /app/wrk
-                    '''
-
                     // Run your scan
                     sh '''
                         docker run --rm -v "${PWD}:/app/wrk" \
