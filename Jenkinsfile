@@ -4,17 +4,8 @@ pipeline {
     environment {
         AZ_API_KEY   = credentials('AZ_TOKEN')
         PROJECT_KEY  = "JjyIsSyhFlzWIxijnvYtOJpINbIFyhhl"
-
-        GITHUB_REPOSITORY = """${
-            (scm?.getUserRemoteConfigs()?.getAt(0)?.getUrl()
-                ?: env.MERCURIAL_REPOSITORY_URL
-                ?: env.JOB_NAME)
-                .tokenize('/')
-                .takeRight(2)
-                .join('/')
-                .replaceAll(/\.git$/, '')
-                .replaceAll(/\.hg$/, '')
-        }"""
+        REPO_URL     = "${env.GIT_URL ?: env.MERCURIAL_REPOSITORY_URL ?: env.JOB_NAME}"
+        GITHUB_REPOSITORY = "${REPO_URL.replaceAll(/.*[:\/]([^\/]+\/[^\/]+)(\.git)?$/, "\$1")}"
     }
 
     stages {
