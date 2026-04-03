@@ -9,6 +9,8 @@ jobs:
       - run:
           name: Run Security Test
           command: |
+            ls $(pwd)
+            ls $CIRCLE_WORKING_DIRECTORY
             docker run -v "$(pwd):/app/wrk" --rm armourzero/pipe-scan:latest --apikey="$AZ_TOKEN" --projectkey="ShqmGdSQKGrlXBqASjRGUWrpistVvOrd" --branch="$CIRCLE_BRANCH" --repo="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
 
 workflows:
