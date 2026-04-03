@@ -1,0 +1,18 @@
+version: 2.1
+jobs:
+  build_and_test:
+    docker:
+      - image: cimg/base:2021.11
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Run Security Test
+          command: |
+            docker run -v "$(pwd):/app/wrk" --rm armourzero/pipe-scan:latest --apikey="$AZ_TOKEN" --projectkey="ShqmGdSQKGrlXBqASjRGUWrpistVvOrd" --branch="$CIRCLE_BRANCH" --repo="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
+
+workflows:
+  version: 2
+  az_security_test:
+    jobs:
+      - build_and_test
