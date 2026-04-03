@@ -5,6 +5,7 @@ jobs:
       - image: cimg/base:2021.11
     steps:
       - checkout
+      - setup_remote_docker
       - run:
           name: Run Security Test
           command: |
