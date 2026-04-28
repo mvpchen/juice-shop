@@ -15,7 +15,7 @@ pipeline {
                       armourzero/pipe-scan:latest \
                       --apikey="$AZ_API_KEY" \
                       --projectkey="$PROJECT_KEY" \
-                      --branch="$GIT_BRANCH" \
+                      --branch="$BRANCH_NAME" \
                       --repo="$REPO_URL"
                 '''
             }
