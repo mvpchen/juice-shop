@@ -10,14 +10,18 @@ pipeline {
     stages {
         stage('ArmourZero Security Test') {
             steps {
-                sh '''
-                    docker run --rm -v "${WORKSPACE}:/app/wrk" \
-                      armourzero/pipe-scan:latest \
-                      --apikey="$AZ_API_KEY" \
-                      --projectkey="$PROJECT_KEY" \
-                      --branch="${GIT_BRANCH.replaceFirst(/^origin\\//, '')}"
-                      --repo="$REPO_URL"
-                '''
+                script {
+                    def cleanBranch = env.GIT_BRANCH?.replaceFirst(/^origin\//, '')
+
+                    sh """
+                        docker run --rm -v "${WORKSPACE}:/app/wrk" \
+                          armourzero/pipe-scan:latest \
+                          --apikey="$AZ_API_KEY" \
+                          --projectkey="$PROJECT_KEY" \
+                          --branch="${cleanBranch}" \
+                          --repo="$REPO_URL"
+                    """
+                }
             }
         }
     }
