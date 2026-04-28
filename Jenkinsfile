@@ -11,18 +11,20 @@ pipeline {
           stage('ArmourZero Security Test') {
               steps {
                   script {
-                      def cleanBranch = env.GIT_BRANCH
+                      def cleanBranch = env.BRANCH_NAME ?: env.GIT_BRANCH
                           ?.replaceFirst(/^refs\/remotes\//, '')
                           ?.replaceFirst(/^[^\/]+\//, '')
 
-                      sh """
-                          docker run --rm -v "${WORKSPACE}:/app/wrk" \
-                            armourzero/pipe-scan:latest \
-                            --apikey="$AZ_API_KEY" \
-                            --projectkey="$PROJECT_KEY" \
-                            --branch="${cleanBranch}" \
-                            --repo="$REPO_URL"
-                      """
+                      withEnv(["CLEAN_BRANCH=${cleanBranch}"]) {
+                          sh '''
+                              docker run --rm -v "${WORKSPACE}:/app/wrk" \
+                                armourzero/pipe-scan:latest \
+                                --apikey="$AZ_API_KEY" \
+                                --projectkey="$PROJECT_KEY" \
+                                --branch="$CLEAN_BRANCH" \
+                                --repo="$REPO_URL"
+                          '''
+                      }
                   }
               }
           }
