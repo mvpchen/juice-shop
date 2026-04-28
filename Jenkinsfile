@@ -11,8 +11,10 @@ pipeline {
         stage('ArmourZero Security Test') {
             steps {
                 script {
-                    def cleanBranch = env.GIT_BRANCH?.replaceFirst(/^origin\//, '')
-
+                    def cleanBranch = env.GIT_BRANCH
+                        ?.replaceFirst(/^refs\/remotes\//, '')
+                        ?.replaceFirst(/^[^\/]+\//, '')   // remove remote name only
+                
                     sh """
                         docker run --rm -v "${WORKSPACE}:/app/wrk" \
                           armourzero/pipe-scan:latest \
